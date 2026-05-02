@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодное приложение</title>
+    <link rel="stylesheet" href="osnovacss.css">
+</head>
+ <body>
+    <div class="container">
+        <div class="background-animation">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>  
+        <div class="circle circle-3"></div>     
+    </div>
+
+    <div class ="weather-card">
+        <div class="header">
+            <i class="fas fa-cloud-sun weather-logo"></i>
+            <h1>Сайт для просмотра прогнозов погоды</h1>
+            <p class="subtitle">Узнайте погоду в любом городе России</p>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input
+            type="text"
+            id="cityInput"
+            placeholder="Введите название города:"
+            autocomplete="off"
+            >
+            <button id="searchBtn" class="search-btn">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+    </div>
+
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Загрузка данных...</p>
+    </div>
+
+    <div id="error" class="error hidden">
+        <i class="fas fa-exclamation-circle"></i>
+        <p id="errorMessage">Такой город не найден</p>
+    </div>
+
+    <div id="weather-info" class="weather-info hidden">
+        <div class="city-info">
+            <h2 id="cityName">
+                <i class="fas fa-map-marker-alt"></i>
+                <span></span>
+            </h2>
+    </div>
+
+    <div class="weather-main">
+        <div class="weather-icon-container">
+            <img id="weatherIcon" src="" alt="Weather Icon">
+        </div>
+        <div class="temperature-container">
+            <span id="temperature" class="temperature"></span>
+            <span class="degree">°C</span>
+        </div>
+        <p id="weatherDescription" class="weather-description"></p>
+    </div>
+
+    <div class="weather-details">
+    <div class="detail-card">
+        <div class="detail-icon">
+            <i class="fas fa-temperature-low"></i>
+        </div>
+        <div class="detail-info">
+            <p class="detail-label">Ощущается как</p>
+            <p id="feelslike" class="detail-value"></p>
+        </div>
+    </div>
+
+    <div class="detail card">
+        <div class="detail-icon">
+            <i class="fas fa-tint"></i>
+        </div>
+        <div class="detail-info">
+            <p class="detail-label">Влажность</p>
+            <p id="humanity" class="detail-value"></p>
+        </div>
+    </div>
+
+    <div class="detail-card">
+        <div class="detail-icon">
+            <i class="fas fa-wind"></i>
+        </div>
+        <div class="detail-info">
+            <p class="detail-label">Скорость ветра</p>
+            <p id="windSpeed" class="detail-value"></p>
+        </div>
+    </div>
+
+    <div class="detail-card">
+        <div class="detail-icon">
+            <i class="fas fa-compress-arrows-alt"></i>
+        </div>
+        <div class="detail-info">
+            <p class="detail-label">Давление</p>
+            <p id="pressure" class="detail-value"></p>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    <script src="script.js"></script>
+ </body>
+</html>
