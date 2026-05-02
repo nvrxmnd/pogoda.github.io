@@ -3,112 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Погодное приложение</title>
-    <link rel="stylesheet" href="osnovacss.css">
+    <title>MitrMeteo — Погода в России</title>
+    <link rel="stylesheet" href="css.css">
 </head>
- <body>
-    <div class="container">
-        <div class="background-animation">
-        <div class="circle circle-1"></div>
-        <div class="circle circle-2"></div>  
-        <div class="circle circle-3"></div>     
-    </div>
-
-    <div class ="weather-card">
-        <div class="header">
-            <i class="fas fa-cloud-sun weather-logo"></i>
-            <h1>Сайт для просмотра прогнозов погоды</h1>
-            <p class="subtitle">Узнайте погоду в любом городе России</p>
-    </div>
-
-    <div class="search-container">
-        <div class="search-box">
-            <i class="fas fa-search search-icon"></i>
-            <input
-            type="text"
-            id="cityInput"
-            placeholder="Введите название города:"
-            autocomplete="off"
-            >
-            <button id="searchBtn" class="search-btn">
-                <i class="fas fa-arrow-right"></i>
-            </button>
-    </div>
-
-    <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Загрузка данных...</p>
-    </div>
-
-    <div id="error" class="error hidden">
-        <i class="fas fa-exclamation-circle"></i>
-        <p id="errorMessage">Такой город не найден</p>
-    </div>
-
-    <div id="weather-info" class="weather-info hidden">
-        <div class="city-info">
-            <h2 id="cityName">
-                <i class="fas fa-map-marker-alt"></i>
-                <span></span>
-            </h2>
-    </div>
-
-    <div class="weather-main">
-        <div class="weather-icon-container">
-            <img id="weatherIcon" src="" alt="Weather Icon">
+<body>
+    <canvas id="particlesCanvas"></canvas>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__weather-icon" title="Погода сегодня">
+                <div class="cloud">
+                    <div class="cloud__body"></div>
+                    <div class="cloud__ball cloud__ball--left"></div>
+                    <div class="cloud__ball cloud__ball--right"></div>
+                    <div class="cloud__ball cloud__ball--top"></div>
+                </div>
+                <div class="lightning">⚡</div>
+                <div class="rain-drops">
+                    <span class="rain-drop"></span>
+                    <span class="rain-drop"></span>
+                    <span class="rain-drop"></span>
+                </div>
+            </div>
+            <button class="nav__btn active" data-section="home">MitrMeteo</button>
+            <button class="nav__btn" data-section="forecast">Перейти к прогнозам</button>
+            <button class="nav__btn" data-section="about">О нас</button>
+            <button class="nav__btn" data-section="contacts">Контакты</button>
+            <div class="theme-toggle-wrapper">
+                <button class="theme-toggle" id="themeToggle" title="Переключить тему">
+                    <span class="theme-toggle__icon">☀️</span>
+                </button>
+                <span class="theme-toggle__label" id="themeLabel">Тёмная тема</span>
+            </div>
+        </nav>
+    </header>
+    <section class="section section--home" id="home">
+        <div class="section__content">
+            <div class="logo-placeholder">
+                <span class="logo-placeholder__text">🌤️</span>
+            </div>
+            <h1 class="title">MitrMeteo</h1>
+            <p class="subtitle">Точный прогноз погоды городов Российской Федерации</p>
+            <p class="hint">Используйте навигацию сверху, чтобы перейти к нужному вам разделу</p>
         </div>
-        <div class="temperature-container">
-            <span id="temperature" class="temperature"></span>
-            <span class="degree">°C</span>
+    </section>
+    <section class="section section--forecast" id="forecast">
+        <div class="section__content">
+            <h2 class="section__title">Прогноз погоды</h2>
+            <p class="section__desc">Введите название российского города</p>
+            <div class="search">
+                <input
+                    type="text"
+                    class="search__input"
+                    placeholder="Например: Москва, Казань, Сочи..."
+                    id="cityInput"
+                >
+                <button class="search__btn" id="searchBtn">Узнать погоду</button>
+            </div>
+            <p class="error" id="errorMsg"></p>
+            <div class="weather-card" id="weatherCard">
+                <div class="weather-card__header">
+                    <h3 class="weather-card__city" id="cityName">—</h3>
+                    <div class="weather-card__datetime">
+                        <span class="weather-card__date" id="date">—</span>
+                        <span class="weather-card__time" id="currentTime">—</span>
+                    </div>
+                </div>
+                <div class="weather-card__main">
+                    <span class="weather-card__icon" id="weatherIcon">—</span>
+                    <span class="weather-card__temp" id="temperature">—°C</span>
+                </div>
+                <p class="weather-card__desc" id="description">—</p>
+                <div class="weather-card__details">
+                    <div class="detail">
+                        <span class="detail__label">Влажность</span>
+                        <span class="detail__value" id="humidity">—</span>
+                    </div>
+                    <div class="detail">
+                        <span class="detail__label">Ветер</span>
+                        <span class="detail__value" id="wind">—</span>
+                    </div>
+                    <div class="detail">
+                        <span class="detail__label">Давление</span>
+                        <span class="detail__value" id="pressure">—</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p id="weatherDescription" class="weather-description"></p>
-    </div>
+    </section>
+    <section class="section section--about" id="about">
+        <div class="section__content">
+            <h2 class="section__title">О нас</h2>
+            <div class="about-card">
+                <p class="about-card__text">
+                    <strong>MitrMeteo</strong> — это веб-приложение, которое было разработано 
+                    в рамках учебного процесса в пределах курсовой работы, чтобы освоить 
+                    навыки веб-разработки. Сайт старается предоставлять актуальную 
+                    информацию о погодных условиях.
+                </p>
+                <p class="about-card__text">
+                    Создатель сайта: <strong>Митрофанов Роман ИСПК-023</strong>
+                </p>
+                <p class="about-card__text">
+                    Использованные технологии: <strong>HTML, CSS, JavaScript</strong>
+                </p>
+                <p class="about-card__text">
+                    Год и дата создания: <strong>Апрель - Май 2026 года</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="section section--contacts" id="contacts">
+        <div class="section__content">
+            <h2 class="section__title">Контакты</h2>
+            <p class="section__desc">Есть вопросы или предложения? Напишите нам!</p>
 
-    <div class="weather-details">
-    <div class="detail-card">
-        <div class="detail-icon">
-            <i class="fas fa-temperature-low"></i>
+            <form class="contact-form" id="contactForm">
+                <input
+                    type="text"
+                    class="contact-form__input"
+                    placeholder="Ваше имя"
+                    id="contactName"
+                    required
+                >
+                <input
+                    type="email"
+                    class="contact-form__input"
+                    placeholder="Ваш email"
+                    id="contactEmail"
+                    required
+                >
+                <textarea
+                    class="contact-form__textarea"
+                    placeholder="Ваше сообщение..."
+                    id="contactMessage"
+                    rows="4"
+                    required
+                ></textarea>
+                <button type="submit" class="contact-form__btn">Отправить</button>
+                <p class="contact-form__success" id="formSuccess"></p>
+            </form>
         </div>
-        <div class="detail-info">
-            <p class="detail-label">Ощущается как</p>
-            <p id="feelslike" class="detail-value"></p>
-        </div>
-    </div>
+    </section>
 
-    <div class="detail card">
-        <div class="detail-icon">
-            <i class="fas fa-tint"></i>
-        </div>
-        <div class="detail-info">
-            <p class="detail-label">Влажность</p>
-            <p id="humanity" class="detail-value"></p>
-        </div>
-    </div>
-
-    <div class="detail-card">
-        <div class="detail-icon">
-            <i class="fas fa-wind"></i>
-        </div>
-        <div class="detail-info">
-            <p class="detail-label">Скорость ветра</p>
-            <p id="windSpeed" class="detail-value"></p>
-        </div>
-    </div>
-
-    <div class="detail-card">
-        <div class="detail-icon">
-            <i class="fas fa-compress-arrows-alt"></i>
-        </div>
-        <div class="detail-info">
-            <p class="detail-label">Давление</p>
-            <p id="pressure" class="detail-value"></p>
-        </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    
-    <script src="script1.js"></script>
- </body>
+    <button class="scroll-top" id="scrollTopBtn" title="Наверх">▲</button>
+    <script src="script.js"></script>
+</body>
 </html>
